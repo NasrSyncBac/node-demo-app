@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 app.get('/', function (req, res) {
-  res.send('Hello World Nasr Aldden Osman Oshar Mohammed, who is makes oil boil :)!');
+  res.send('Hello World Nasr Aldden Osman Oshar Mohammed, who is makes oil boil!');
 });
 
 var server = app.listen(3000, function () {
