@@ -1,0 +1,77 @@
+{
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "grantatsyncbak",
+  "limitConcurrent": true,
+  "stages": [
+    {
+      "clusters": [
+        {
+          "account": "my-syncbak-account",
+          "amiName": "${trigger.properties['AMI']}",
+          "application": "phase2",
+          "availabilityZones": {
+            "us-east-1": [
+              "us-east-1a",
+              "us-east-1c"
+            ]
+          },
+          "capacity": {
+            "desired": 2,
+            "max": 2,
+            "min": 2
+          },
+          "cloudProvider": "aws",
+          "cooldown": 10,
+          "copySourceCustomBlockDeviceMappings": false,
+          "ebsOptimized": false,
+          "enabledMetrics": [],
+          "freeFormDetails": "Playlistserver-Ads2-EnvFile-d0dev",
+          "healthCheckGracePeriod": 600,
+          "healthCheckType": "EC2",
+          "iamRole": "playlistserver-adreplacement",
+          "instanceMonitoring": false,
+          "instanceType": "t2.micro",
+          "keyPair": "syncbak-ps",
+          "loadBalancers": [
+            "PlaylistServer-AdReplacement-Dev"
+          ],
+          "provider": "aws",
+          "securityGroups": [
+            "sg-5a39ae3c"
+          ],
+          "spelLoadBalancers": [],
+          "spelTargetGroups": [],
+          "stack": "VPC",
+          "strategy": "redblack",
+          "subnetType": "internal-ngw",
+          "suspendedProcesses": [],
+          "tags": {
+            "SYNCBAK_ENVIRONEMNT": "DEV"
+          },
+          "targetGroups": [],
+          "targetHealthyDeployPercentage": 100,
+          "terminationPolicies": [
+            "Default"
+          ],
+          "useAmiBlockDeviceMappings": false,
+          "useSourceCapacity": true,
+          "userData": "#!/bin/bash -ex;printf 'dev' > /etc/default/env"
+        }
+      ],
+      "name": "Deploy",
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "type": "deploy"
+    }
+  ],
+  "triggers": [
+    {
+      "enabled": true,
+      "job": "PlaylistServer-Go-New",
+      "master": "my-jenkins-master",
+      "propertyFile": "build.properties",
+      "type": "jenkins"
+    }
+  ],
+  "updateTs": "1539202524000"
+}
