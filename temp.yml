@@ -1,6 +1,7 @@
 {
   "keepWaitingPipelines": false,
   "lastModifiedBy": "grantatsyncbak",
+  "description": Example bake and deploy template,
   "limitConcurrent": true,
   "stages": [
     {
