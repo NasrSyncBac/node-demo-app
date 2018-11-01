@@ -1,93 +1,77 @@
 {
   "keepWaitingPipelines": false,
-  "lastModifiedBy": "NasrSyncBac",
+  "lastModifiedBy": "grantatsyncbak",
   "limitConcurrent": true,
   "stages": [
-    {
-      "baseLabel": "release",
-      "baseOs": "ubuntu xenial",
-      "cloudProviderType": "aws",
-      "extendedAttributes": {},
-      "name": "Bake",
-      "package": "node-demo-app",
-      "refId": "1",
-      "region": "us-east-1",
-      "regions": [
-        "us-east-1"
-      ],
-      "requisiteStageRefIds": [],
-      "storeType": "ebs",
-      "type": "bake",
-      "user": "NasrSyncBac",
-      "vmType": "hvm"
-    },
     {
       "clusters": [
         {
           "account": "my-syncbak-account",
-          "application": "demo",
-          "associatePublicIpAddress": true,
+          "amiName": "${trigger.properties['AMI']}",
+          "application": "phase2",
           "availabilityZones": {
             "us-east-1": [
               "us-east-1a",
-              "us-east-1b",
-              "us-east-1c",
-              "us-east-1d",
-              "us-east-1e",
-              "us-east-1f"
+              "us-east-1c"
             ]
           },
           "capacity": {
-            "desired": 1,
-            "max": 1,
-            "min": 1
+            "desired": 2,
+            "max": 2,
+            "min": 2
           },
           "cloudProvider": "aws",
           "cooldown": 10,
           "copySourceCustomBlockDeviceMappings": false,
           "ebsOptimized": false,
           "enabledMetrics": [],
-          "freeFormDetails": "",
+          "freeFormDetails": "Playlistserver-Ads2-EnvFile-d0dev",
           "healthCheckGracePeriod": 600,
           "healthCheckType": "EC2",
-          "iamRole": "BaseIAMRole",
+          "iamRole": "playlistserver-adreplacement",
           "instanceMonitoring": false,
-          "instanceType": "t2.nano",
+          "instanceType": "t2.micro",
           "keyPair": "syncbak-ps",
-          "loadBalancers": [],
-          "moniker": {
-            "app": "demo",
-            "detail": "",
-            "stack": "test"
-          },
+          "loadBalancers": [
+            "PlaylistServer-AdReplacement-Dev"
+          ],
           "provider": "aws",
           "securityGroups": [
-            "sg-0583db69a36be9883"
+            "sg-5a39ae3c"
           ],
-          "spotPrice": "",
-          "stack": "test",
-          "strategy": "highlander",
-          "subnetType": "external (DefaultVPC)",
+          "spelLoadBalancers": [],
+          "spelTargetGroups": [],
+          "stack": "VPC",
+          "strategy": "redblack",
+          "subnetType": "internal-ngw",
           "suspendedProcesses": [],
-          "tags": {},
-          "targetGroups": [
-            "demo-targetgroup"
-          ],
+          "tags": {
+            "SYNCBAK_ENVIRONEMNT": "DEV"
+          },
+          "targetGroups": [],
           "targetHealthyDeployPercentage": 100,
           "terminationPolicies": [
             "Default"
           ],
-          "useAmiBlockDeviceMappings": true
+          "useAmiBlockDeviceMappings": false,
+          "useSourceCapacity": true,
+          "userData": "#!/bin/bash -ex;printf 'dev' > /etc/default/env"
         }
       ],
       "name": "Deploy",
-      "refId": "2",
-      "requisiteStageRefIds": [
-        "1"
-      ],
+      "refId": "1",
+      "requisiteStageRefIds": [],
       "type": "deploy"
     }
   ],
-  "triggers": [],
-  "updateTs": "1539093365000"
+  "triggers": [
+    {
+      "enabled": true,
+      "job": "PlaylistServer-Go-New",
+      "master": "my-jenkins-master",
+      "propertyFile": "build.properties",
+      "type": "jenkins"
+    }
+  ],
+  "updateTs": "1539202524000"
 }
